@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ariyan Roy - Windows Resume</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen">
+        <div class="windows-logo"></div>
+        <div class="loading-text">Loading</div>
+        <div class="loading-dots">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+        <div class="author-name">Ariyan Roy</div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="desktop">
+        <div class="desktop-icons">
+            <div class="icon" onclick="openFolder('introduction')">
+                <i class="fas fa-user"></i>
+                <span>About Me</span>
+            </div>
+            <div class="icon" onclick="openFolder('academics')">
+                <i class="fas fa-graduation-cap"></i>
+                <span>Academics</span>
+            </div>
+            <div class="icon" onclick="openFolder('projects')">
+                <i class="fas fa-project-diagram"></i>
+                <span>Projects</span>
+            </div>
+            <div class="icon" onclick="openFolder('skills')">
+                <i class="fas fa-tools"></i>
+                <span>Skills</span>
+            </div>
+            <div class="icon" onclick="openFolder('links')">
+                <i class="fas fa-link"></i>
+                <span>Links</span>
+            </div>
+            <div class="icon" onclick="openFolder('contact')">
+                <i class="fas fa-address-card"></i>
+                <span>Contact</span>
+            </div>
+        </div>
+
+        <!-- Windows -->
+        <div class="window" id="introduction-window">
+            <div class="window-header">
+                <span>About Me</span>
+                <button class="close-btn" onclick="closeFolder('introduction')">×</button>
+            </div>
+            <div class="window-content">
+                <div class="file">
+                    <i class="fas fa-user-circle"></i>
+                    <div class="file-content">
+                        <h3>Ariyan Roy</h3>
+                        <p>Full Stack Developer</p>
+                        <p>I am an enthusiastic B.Tech Computer Science and Engineering student at VIT-AP, committed to continuous learning and problem-solving.</p>
+                        <p>With a solid understanding of frontend development and SQL, I actively seek opportunities to enhance my skills, particularly in Data Structures and Algorithms (DSA), to contribute effectively to innovative projects.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="window" id="academics-window">
+            <div class="window-header">
+                <span>Academics</span>
+                <button class="close-btn" onclick="closeFolder('academics')">×</button>
+            </div>
+            <div class="window-content">
+                <div class="file">
+                    <i class="fas fa-school"></i>
+                    <div class="file-content">
+                        <h3>Ramakrishna Mission Vidyalaya</h3>
+                        <p>All India Secondary School Examination</p>
+                        <p>Passing percentage: 89%</p>
+                    </div>
+                </div>
+                <div class="file">
+                    <i class="fas fa-school"></i>
+                    <div class="file-content">
+                        <h3>Ramakrishna Mission Vidyalaya</h3>
+                        <p>All India Senior School Certificate Examination</p>
+                        <p>Passing percentage: 83.8%</p>
+                    </div>
+                </div>
+                <div class="file">
+                    <i class="fas fa-university"></i>
+                    <div class="file-content">
+                        <h3>Vellore Institute of Technology-AP</h3>
+                        <p>Bachelor of Technology (CSE)</p>
+                        <p>CGPA: 8.04</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="window" id="projects-window">
+            <div class="window-header">
+                <span>Projects</span>
+                <button class="close-btn" onclick="closeFolder('projects')">×</button>
+            </div>
+            <div class="window-content">
+                <div class="file">
+                    <i class="fas fa-robot"></i>
+                    <div class="file-content">
+                        <h3>Sentiment Analysis Chatbot</h3>
+                        <p>A chatbot that can analyze and respond to user sentiment</p>
+                    </div>
+                </div>
+                <div class="file">
+                    <i class="fas fa-eye"></i>
+                    <div class="file-content">
+                        <h3>Drowsiness Detection System</h3>
+                        <p>Python, YOLOv5</p>
+                    </div>
+                </div>
+                <div class="file">
+                    <i class="fas fa-image"></i>
+                    <div class="file-content">
+                        <h3>Image Compressor Application</h3>
+                        <p>An application for efficient image compression</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="window" id="skills-window">
+            <div class="window-header">
+                <span>Skills</span>
+                <button class="close-btn" onclick="closeFolder('skills')">×</button>
+            </div>
+            <div class="window-content">
+                <div class="file">
+                    <i class="fas fa-code"></i>
+                    <div class="file-content">
+                        <h3>Programming Languages</h3>
+                        <p>Java, Python, R Programming, SQL</p>
+                    </div>
+                </div>
+                <div class="file">
+                    <i class="fas fa-globe"></i>
+                    <div class="file-content">
+                        <h3>Web Technologies</h3>
+                        <p>HTML, CSS, JavaScript, Node.js, Express.js, React.js</p>
+                    </div>
+                </div>
+                <div class="file">
+                    <i class="fab fa-aws"></i>
+                    <div class="file-content">
+                        <h3>Cloud Technologies</h3>
+                        <p>AWS</p>
+                    </div>
+                </div>
+                <div class="file">
+                    <i class="fas fa-brain"></i>
+                    <div class="file-content">
+                        <h3>Soft Skills</h3>
+                        <p>Strong analytical skills, attention to detail</p>
+                        <p>Methodical and excellent organizational skills</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="window" id="links-window">
+            <div class="window-header">
+                <span>Links</span>
+                <button class="close-btn" onclick="closeFolder('links')">×</button>
+            </div>
+            <div class="window-content">
+                <div class="file">
+                    <i class="fab fa-github"></i>
+                    <div class="file-content">
+                        <a href="https://github.com/Ar404-dotcom" target="_blank">GitHub Profile</a>
+                    </div>
+                </div>
+                <div class="file">
+                    <i class="fas fa-code"></i>
+                    <div class="file-content">
+                        <a href="https://leetcode.com/u/Ariyan_/" target="_blank">LeetCode Profile</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="window" id="contact-window">
+            <div class="window-header">
+                <span>Contact</span>
+                <button class="close-btn" onclick="closeFolder('contact')">×</button>
+            </div>
+            <div class="window-content">
+                <div class="file">
+                    <i class="fas fa-phone"></i>
+                    <div class="file-content">
+                        <h3>Phone</h3>
+                        <p>📞 8837225614</p>
+                    </div>
+                </div>
+                <div class="file">
+                    <i class="fas fa-envelope"></i>
+                    <div class="file-content">
+                        <h3>Email</h3>
+                        <p>📧 royariyan02@gmail.com</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Windows Terminal -->
+        <div class="window terminal" id="terminal-window">
+            <div class="window-header">
+                <span><i class="fas fa-terminal"></i> Windows Terminal</span>
+                <div class="window-controls">
+                    <button class="minimize-btn">─</button>
+                    <button class="maximize-btn">□</button>
+                    <button class="close-btn" onclick="closeFolder('terminal')">×</button>
+                </div>
+            </div>
+            <div class="window-content terminal-content">
+                <div class="terminal-output"></div>
+                <div class="terminal-input-line">
+                    <span class="prompt">C:\Users\Ariyan></span>
+                    <input type="text" class="terminal-input" placeholder="Type a command...">
+                </div>
+            </div>
+        </div>
+
+        <div class="taskbar">
+            <div class="taskbar-left">
+                <div class="start-button" onclick="toggleStartMenu()">
+                    <i class="fab fa-windows"></i>
+                </div>
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Type to search...">
+                </div>
+                <div class="taskbar-item terminal-btn" onclick="openFolder('terminal')">
+                    <i class="fas fa-terminal"></i>
+                </div>
+            </div>
+            <div class="time-date">
+                <div id="current-time"></div>
+                <div id="current-date"></div>
+            </div>
+        </div>
+
+        <!-- Start Menu -->
+        <div class="start-menu">
+            <div class="start-menu-header">
+                <div class="user-profile">
+                    <i class="fas fa-user-circle"></i>
+                    <span>Ariyan Roy</span>
+                </div>
+            </div>
+            <div class="start-menu-items">
+                <div class="menu-item" onclick="openFolder('introduction')">
+                    <i class="fas fa-user"></i>
+                    <span>About Me</span>
+                </div>
+                <div class="menu-item" onclick="openFolder('academics')">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>Academics</span>
+                </div>
+                <div class="menu-item" onclick="openFolder('projects')">
+                    <i class="fas fa-project-diagram"></i>
+                    <span>Projects</span>
+                </div>
+                <div class="menu-item" onclick="openFolder('skills')">
+                    <i class="fas fa-tools"></i>
+                    <span>Skills</span>
+                </div>
+                <div class="menu-item" onclick="openFolder('links')">
+                    <i class="fas fa-link"></i>
+                    <span>Links</span>
+                </div>
+                <div class="menu-item" onclick="openFolder('contact')">
+                    <i class="fas fa-address-card"></i>
+                    <span>Contact</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html> 
