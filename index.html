@@ -232,9 +232,70 @@
             </div>
         </div>
 
+        <!-- Weather Window -->
+        <div id="weather-window" class="window">
+            <div class="window-header">
+                <span><i class="fas fa-cloud-sun"></i> Weather</span>
+                <button class="close-btn"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="weather-details">
+                <div class="current-weather">
+                    <div class="weather-main-info">
+                        <div class="weather-icon-large">
+                            <i class="fas fa-cloud-sun"></i>
+                        </div>
+                        <div class="temperature-large" id="weather-temp-large"></div>
+                        <div class="location-large" id="weather-location-large"></div>
+                    </div>
+                </div>
+                <div class="weather-info-detailed">
+                    <div class="weather-row">
+                        <i class="fas fa-temperature-high"></i>
+                        <span>Feels Like: <span id="weather-feels-like"></span></span>
+                    </div>
+                    <div class="weather-row">
+                        <i class="fas fa-tint"></i>
+                        <span>Humidity: <span id="weather-humidity"></span></span>
+                    </div>
+                    <div class="weather-row">
+                        <i class="fas fa-wind"></i>
+                        <span>Wind: <span id="weather-wind"></span></span>
+                    </div>
+                    <div class="weather-row">
+                        <i class="fas fa-compass"></i>
+                        <span>Pressure: <span id="weather-pressure"></span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Clock Window -->
+        <div class="window" id="clock-window">
+            <div class="window-header">
+                <span><i class="fas fa-clock"></i> Date & Time</span>
+                <button class="close-btn" onclick="closeFolder('clock')">×</button>
+            </div>
+            <div class="window-content">
+                <div class="clock-details">
+                    <div class="digital-clock"></div>
+                    <div class="date-full"></div>
+                    <div class="time-zones">
+                        <div class="time-zone-item">
+                            <span>UTC</span>
+                            <div class="utc-time"></div>
+                        </div>
+                        <div class="time-zone-item">
+                            <span>Local</span>
+                            <div class="local-time"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="taskbar">
             <div class="taskbar-left">
-                <div class="start-button" onclick="toggleStartMenu()">
+                <div class="start-button">
                     <i class="fab fa-windows"></i>
                 </div>
                 <div class="search-box">
@@ -243,6 +304,13 @@
                 </div>
                 <div class="taskbar-item terminal-btn" onclick="openFolder('terminal')">
                     <i class="fas fa-terminal"></i>
+                </div>
+            </div>
+            <div class="weather-widget">
+                <i class="fas fa-cloud"></i>
+                <div class="weather-info">
+                    <div class="weather-temp">--°C</div>
+                    <div class="weather-location">Vijayawada</div>
                 </div>
             </div>
             <div class="time-date">
@@ -255,34 +323,34 @@
         <div class="start-menu">
             <div class="start-menu-header">
                 <div class="user-profile">
-                    <i class="fas fa-user-circle"></i>
-                    <span>Ariyan Roy</span>
+                    <i class="fas fa-user"></i>
+                    <span>Ariyan</span>
                 </div>
             </div>
             <div class="start-menu-items">
-                <div class="menu-item" onclick="openFolder('introduction')">
-                    <i class="fas fa-user"></i>
-                    <span>About Me</span>
-                </div>
-                <div class="menu-item" onclick="openFolder('academics')">
+                <div class="menu-item" data-folder="academics">
                     <i class="fas fa-graduation-cap"></i>
                     <span>Academics</span>
                 </div>
-                <div class="menu-item" onclick="openFolder('projects')">
+                <div class="menu-item" data-folder="projects">
                     <i class="fas fa-project-diagram"></i>
                     <span>Projects</span>
                 </div>
-                <div class="menu-item" onclick="openFolder('skills')">
+                <div class="menu-item" data-folder="skills">
                     <i class="fas fa-tools"></i>
                     <span>Skills</span>
                 </div>
-                <div class="menu-item" onclick="openFolder('links')">
+                <div class="menu-item" data-folder="links">
                     <i class="fas fa-link"></i>
                     <span>Links</span>
                 </div>
-                <div class="menu-item" onclick="openFolder('contact')">
+                <div class="menu-item" data-folder="contact">
                     <i class="fas fa-address-card"></i>
                     <span>Contact</span>
+                </div>
+                <div class="menu-item" data-folder="introduction">
+                    <i class="fas fa-user"></i>
+                    <span>Introduction</span>
                 </div>
             </div>
         </div>
