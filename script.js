@@ -1,4 +1,3 @@
-// Loading Screen
 document.addEventListener('DOMContentLoaded', () => {
     const loadingScreen = document.querySelector('.loading-screen');
     const desktop = document.querySelector('.desktop');
@@ -218,14 +217,51 @@ document.head.appendChild(style);
 const startButton = document.querySelector('.start-button');
 const startMenu = document.querySelector('.start-menu');
 
-startButton.addEventListener('click', () => {
+function toggleStartMenu() {
     startMenu.classList.toggle('active');
+    // Bring start menu to front
+    if (startMenu.classList.contains('active')) {
+        startMenu.style.zIndex = getHighestZIndex() + 1;
+    }
+}
+
+// Add click event listener to start button
+startButton.addEventListener('click', (e) => {
+    e.stopPropagation(); // Prevent event from bubbling up
+    toggleStartMenu();
 });
 
+// Close start menu when clicking outside
 document.addEventListener('click', (e) => {
     if (!startMenu.contains(e.target) && !startButton.contains(e.target)) {
         startMenu.classList.remove('active');
     }
+});
+
+// Prevent start menu from closing when clicking inside it
+startMenu.addEventListener('click', (e) => {
+    e.stopPropagation();
+});
+
+// Add folder navigation to start menu
+const menuItems = document.querySelectorAll('.menu-item');
+menuItems.forEach(item => {
+    item.addEventListener('click', () => {
+        const folderName = item.getAttribute('data-folder');
+        if (folderName) {
+            openFolder(folderName);
+            startMenu.classList.remove('active');
+        }
+    });
+});
+
+// Link desktop icons with start menu
+const desktopIcons = document.querySelectorAll('.desktop-icons .icon');
+desktopIcons.forEach(icon => {
+    icon.addEventListener('click', () => {
+        const folderName = icon.getAttribute('onclick').match(/'([^']+)'/)[1];
+        openFolder(folderName);
+    });
 });
 
 // Terminal functionality
@@ -234,40 +270,41 @@ const terminal = document.querySelector('.terminal');
 const terminalInput = document.querySelector('.terminal-input');
 let currentDirectory = 'C:\\Users\\Ariyan';
 
-terminalBtn.addEventListener('click', () => {
-    if (terminal.style.display === 'none' || !terminal.style.display) {
-        terminal.style.display = 'block';
-        terminalInput.focus();
-    } else {
-        terminal.style.display = 'none';
-    }
-});
+// Define valid directories
+const validDirectories = {
+    'C:\\Users\\Ariyan': ['Desktop', 'Documents', 'Downloads', 'Pictures'],
+    'C:\\Users\\Ariyan\\Desktop': ['Projects', 'Resume', 'Documents'],
+    'C:\\Users\\Ariyan\\Documents': ['Work', 'Personal', 'Studies'],
+    'C:\\Users\\Ariyan\\Downloads': [],
+    'C:\\Users\\Ariyan\\Pictures': ['Screenshots', 'Photos']
+};
+
+// Define valid commands
+const validCommands = {
+    'cd': 'Change directory',
+    'dir': 'List directory contents',
+    'cls': 'Clear screen',
+    'help': 'Show available commands',
+    'echo': 'Display a message',
+    'date': 'Show current date',
+    'time': 'Show current time',
+    'exit': 'Close terminal'
+};
 
 function updatePrompt() {
     document.querySelector('.prompt').textContent = `${currentDirectory}>`;
 }
 
-function addTerminalOutput(text) {
+function addTerminalOutput(text, isError = false) {
     const output = document.createElement('div');
     output.textContent = text;
-    output.style.color = '#ffffff';
+    output.style.color = isError ? '#ff4444' : '#ffffff';
     document.querySelector('.terminal-content').insertBefore(output, document.querySelector('.terminal-input-line'));
 }
 
-terminalInput.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') {
-        const command = terminalInput.value.trim().toLowerCase();
-        const output = executeCommand(command);
-        addTerminalOutput(`${currentDirectory}> ${command}`);
-        if (output) addTerminalOutput(output);
-        terminalInput.value = '';
-        updatePrompt();
-    }
-});
-
 function executeCommand(command) {
     const parts = command.split(' ');
-    const cmd = parts[0];
+    const cmd = parts[0].toLowerCase();
     const args = parts.slice(1);
 
     switch (cmd) {
@@ -283,34 +320,92 @@ function executeCommand(command) {
                 }
                 return '';
             }
-            currentDirectory = `${currentDirectory}\\${args[0]}`;
-            return '';
+            
+            // Check if the argument matches any folder name
+            const folderName = args[0].toLowerCase();
+            const validFolders = ['introduction', 'academics', 'projects', 'skills', 'links', 'contact'];
+            
+            if (validFolders.includes(folderName)) {
+                openFolder(folderName);
+                return `Opening ${folderName} folder...`;
+            }
+            
+            const newPath = `${currentDirectory}\\${args[0]}`;
+            if (validDirectories[newPath]) {
+                currentDirectory = newPath;
+                return '';
+            } else {
+                return `The system cannot find the path specified: ${newPath}`;
+            }
+
         case 'dir':
         case 'ls':
-            return `
-Directory of ${currentDirectory}
-[DIR]  Desktop
-[DIR]  Documents
-[DIR]  Projects
-[FILE] resume.html
-[FILE] styles.css
-[FILE] script.js`;
-        case 'clear':
+            if (!validDirectories[currentDirectory]) {
+                return `Directory not found: ${currentDirectory}`;
+            }
+            let output = `\n Directory of ${currentDirectory}\n\n`;
+            validDirectories[currentDirectory].forEach(item => {
+                output += `[DIR]  ${item}\n`;
+            });
+            return output;
+
         case 'cls':
+        case 'clear':
             document.querySelector('.terminal-content').innerHTML = '';
             document.querySelector('.terminal-content').appendChild(document.querySelector('.terminal-input-line'));
             return '';
+
         case 'help':
-            return `
-Available commands:
-cd [directory] - Change directory
-dir/ls - List directory contents
-clear/cls - Clear screen
-help - Show this help message`;
+            let helpText = '\nAvailable commands:\n';
+            for (const [cmd, desc] of Object.entries(validCommands)) {
+                helpText += `${cmd.padEnd(10)} - ${desc}\n`;
+            }
+            return helpText;
+
+        case 'echo':
+            return args.join(' ');
+
+        case 'date':
+            return new Date().toLocaleDateString();
+
+        case 'time':
+            return new Date().toLocaleTimeString();
+
+        case 'exit':
+            terminal.style.display = 'none';
+            return '';
+
+        case 'mkdir':
+            if (args.length === 0) {
+                return 'Usage: mkdir <foldername>';
+            }
+            const newFolder = args[0].toLowerCase();
+            if (document.getElementById(`${newFolder}-window`)) {
+                return `Folder '${newFolder}' already exists.`;
+            }
+            createTextFolderWindow(newFolder);
+            openFolder(newFolder);
+            return `Folder '${newFolder}' created. You can write text in it.`;
+
         default:
-            return `'${command}' is not recognized as an internal or external command.`;
+            return `'${cmd}' is not recognized as an internal or external command, operable program or batch file.`;
     }
 }
+
+terminalInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+        const command = terminalInput.value.trim();
+        if (command) {
+            addTerminalOutput(`${currentDirectory}> ${command}`);
+            const output = executeCommand(command);
+            if (output) {
+                addTerminalOutput(output, output.includes('not recognized') || output.includes('cannot find'));
+            }
+            terminalInput.value = '';
+            updatePrompt();
+        }
+    }
+});
 
 // Search functionality
 const searchBox = document.querySelector('.search-box input');
@@ -348,14 +443,16 @@ searchBox.addEventListener('input', (e) => {
 
     // Search social apps
     const socialApps = [
-        { name: 'Gmail', icon: 'fa-envelope', url: 'https://gmail.com' },
+        { name: 'Gmail', icon: 'fab fa-google', url: 'https://gmail.com' },
         { name: 'Instagram', icon: 'fab fa-instagram', url: 'https://instagram.com' },
         { name: 'Twitter', icon: 'fab fa-twitter', url: 'https://twitter.com' },
         { name: 'Chess.com', icon: 'fas fa-chess', url: 'https://chess.com' },
         { name: 'YouTube', icon: 'fab fa-youtube', url: 'https://youtube.com' },
         { name: 'Spotify', icon: 'fab fa-spotify', url: 'https://spotify.com' },
         { name: 'Google', icon: 'fab fa-google', url: 'https://google.com' },
-        { name: 'Amazon', icon: 'fab fa-amazon', url: 'https://amazon.com' }
+        { name: 'Amazon', icon: 'fab fa-amazon', url: 'https://amazon.com' },
+        { name: 'LeetCode', icon: 'fas fa-code', url: 'https://leetcode.com/ariyan' },
+        { name: 'GitHub', icon: 'fab fa-github', url: 'https://github.com/ariyan' }
     ];
 
     socialApps.forEach(app => {
@@ -429,14 +526,16 @@ terminalCloseBtn.addEventListener('click', () => {
 
 // Add social media apps to taskbar
 const socialApps = [
-    { name: 'Gmail', icon: 'fa-envelope', url: 'https://gmail.com' },
+    { name: 'Gmail', icon: 'fab fa-google', url: 'https://gmail.com' },
     { name: 'Instagram', icon: 'fab fa-instagram', url: 'https://instagram.com' },
     { name: 'Twitter', icon: 'fab fa-twitter', url: 'https://twitter.com' },
     { name: 'Chess.com', icon: 'fas fa-chess', url: 'https://chess.com' },
     { name: 'YouTube', icon: 'fab fa-youtube', url: 'https://youtube.com' },
     { name: 'Spotify', icon: 'fab fa-spotify', url: 'https://spotify.com' },
     { name: 'Google', icon: 'fab fa-google', url: 'https://google.com' },
-    { name: 'Amazon', icon: 'fab fa-amazon', url: 'https://amazon.com' }
+    { name: 'Amazon', icon: 'fab fa-amazon', url: 'https://amazon.com' },
+    { name: 'LeetCode', icon: 'fas fa-code', url: 'https://leetcode.com/ariyan' },
+    { name: 'GitHub', icon: 'fab fa-github', url: 'https://github.com/ariyan' }
 ];
 
 function addSocialAppsToTaskbar() {
@@ -462,53 +561,27 @@ addSocialAppsToTaskbar();
 // Weather functionality
 async function getWeather() {
     try {
-        // Using Open-Meteo API with fixed coordinates for Vijayawada
         const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=16.5074&longitude=80.6466&hourly=temperature_2m,relative_humidity_2m,rain,cloud_cover&current_weather=true`);
         const data = await response.json();
 
-        // Update weather widget
-        const weatherWidget = document.createElement('div');
-        weatherWidget.className = 'weather-widget';
-        
-        const weatherIcon = getWeatherIcon(data.current_weather.weathercode);
         const temperature = Math.round(data.current_weather.temperature);
+        const weatherIcon = getWeatherIcon(data.current_weather.weathercode);
         
-        weatherWidget.innerHTML = `
-            <i class="${weatherIcon}"></i>
-            <div class="weather-info">
-                <div class="weather-temp">${temperature}°C</div>
-                <div class="weather-location">Vijayawada</div>
-            </div>
-        `;
-
-        // Remove existing weather widget if it exists
-        const existingWidget = document.querySelector('.weather-widget');
-        if (existingWidget) {
-            existingWidget.remove();
+        // Update the existing weather widget instead of creating a new one
+        const weatherTemp = document.querySelector('.weather-widget .weather-temp');
+        const weatherIconEl = document.querySelector('.weather-widget i');
+        
+        if (weatherTemp && weatherIconEl) {
+            weatherTemp.textContent = `${temperature}°C`;
+            weatherIconEl.className = weatherIcon;
         }
 
-        // Insert weather widget before the time-date div
-        const timeDate = document.querySelector('.time-date');
-        timeDate.parentNode.insertBefore(weatherWidget, timeDate);
-
+        // Update the weather window if it's open
+        if (document.getElementById('weather-window').style.display === 'block') {
+            updateWeatherWindow(data);
+        }
     } catch (error) {
         console.error('Error fetching weather:', error);
-        // Show default weather widget if there's an error
-        const weatherWidget = document.createElement('div');
-        weatherWidget.className = 'weather-widget';
-        weatherWidget.innerHTML = `
-            <i class="fas fa-cloud"></i>
-            <div class="weather-info">
-                <div class="weather-temp">--°C</div>
-                <div class="weather-location">Vijayawada</div>
-            </div>
-        `;
-        const existingWidget = document.querySelector('.weather-widget');
-        if (existingWidget) {
-            existingWidget.remove();
-        }
-        const timeDate = document.querySelector('.time-date');
-        timeDate.parentNode.insertBefore(weatherWidget, timeDate);
     }
 }
 
@@ -543,9 +616,204 @@ function getWeatherIcon(weatherCode) {
     return icons[weatherCode] || 'fas fa-cloud';
 }
 
-// Call getWeather on page load and every 5 minutes
-getWeather();
-setInterval(getWeather, 5 * 60 * 1000);
+// Initialize weather and clock widgets
+document.addEventListener('DOMContentLoaded', () => {
+    const weatherWidget = document.querySelector('.weather-widget');
+    const weatherWindow = document.getElementById('weather-window');
+    const clockWidget = document.querySelector('.time-date');
+    const clockWindow = document.getElementById('clock-window');
+
+    // Weather widget click handler
+    if (weatherWidget) {
+        weatherWidget.onclick = function() {
+            if (weatherWindow) {
+                weatherWindow.style.display = weatherWindow.style.display === 'block' ? 'none' : 'block';
+                if (weatherWindow.style.display === 'block') {
+                    weatherWindow.style.zIndex = getHighestZIndex() + 1;
+                    getWeather();
+                }
+            }
+        };
+    }
+
+    // Clock widget click handler
+    if (clockWidget) {
+        clockWidget.onclick = function() {
+            if (clockWindow) {
+                clockWindow.style.display = clockWindow.style.display === 'block' ? 'none' : 'block';
+                if (clockWindow.style.display === 'block') {
+                    clockWindow.style.zIndex = getHighestZIndex() + 1;
+                    updateClockWindow();
+                    initAnalogClock();
+                }
+            }
+        };
+    }
+
+    // Make windows draggable
+    if (weatherWindow) makeDraggable(weatherWindow);
+    if (clockWindow) makeDraggable(clockWindow);
+
+    // Add close button functionality to both windows
+    const closeButtons = document.querySelectorAll('#weather-window .close-btn, #clock-window .close-btn');
+    closeButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevent event bubbling
+            const window = button.closest('.window');
+            if (window) {
+                window.style.display = 'none';
+                
+                // Clear any intervals if it's the clock window
+                if (window.id === 'clock-window' && window.dataset.intervalId) {
+                    clearInterval(parseInt(window.dataset.intervalId));
+                }
+            }
+        });
+    });
+});
+
+// Add analog clock functionality
+function initAnalogClock() {
+    const clockContent = document.querySelector('#clock-window .clock-details');
+    const analogClock = document.createElement('div');
+    analogClock.className = 'analog-clock';
+    
+    analogClock.innerHTML = `
+        <div class="clock-face">
+            <div class="center-dot"></div>
+            <div class="hand hour-hand"></div>
+            <div class="hand minute-hand"></div>
+            <div class="hand second-hand"></div>
+            ${Array.from({length: 12}, (_, i) => 
+                `<div class="hour-marker" style="transform: rotate(${i * 30}deg)"></div>`
+            ).join('')}
+        </div>
+    `;
+    
+    // Insert analog clock at the beginning of clock content
+    clockContent.insertBefore(analogClock, clockContent.firstChild);
+    
+    updateAnalogClock();
+    setInterval(updateAnalogClock, 1000);
+}
+
+function updateAnalogClock() {
+    const now = new Date();
+    const seconds = now.getSeconds();
+    const minutes = now.getMinutes();
+    const hours = now.getHours() % 12;
+    
+    const secondDeg = (seconds / 60) * 360;
+    const minuteDeg = ((minutes + seconds / 60) / 60) * 360;
+    const hourDeg = ((hours + minutes / 60) / 12) * 360;
+    
+    const hourHand = document.querySelector('.hour-hand');
+    const minuteHand = document.querySelector('.minute-hand');
+    const secondHand = document.querySelector('.second-hand');
+    
+    if (hourHand && minuteHand && secondHand) {
+        hourHand.style.transform = `rotate(${hourDeg}deg)`;
+        minuteHand.style.transform = `rotate(${minuteDeg}deg)`;
+        secondHand.style.transform = `rotate(${secondDeg}deg)`;
+    }
+}
+
+// Update weather window with detailed information
+function updateWeatherWindow(data) {
+    const weatherWindow = document.getElementById('weather-window');
+    const tempLarge = document.getElementById('weather-temp-large');
+    const locationLarge = document.getElementById('weather-location-large');
+    const feelsLike = document.getElementById('weather-feels-like');
+    const humidity = document.getElementById('weather-humidity');
+    const wind = document.getElementById('weather-wind');
+    const pressure = document.getElementById('weather-pressure');
+    const weatherIcon = weatherWindow.querySelector('.weather-icon-large i');
+    const rainEl = document.getElementById('weather-rain');
+    const cloudEl = document.getElementById('weather-cloud');
+
+    // Use Open-Meteo API structure
+    // Get current values
+    const temp = data.current_weather.temperature;
+    const rain = data.hourly.rain[0];
+    const cloud = data.hourly.cloud_cover[0];
+    const humid = data.hourly.relative_humidity_2m[0];
+    const windSpeed = data.current_weather.windspeed;
+    const location = 'Vijayawada'; // Or use a variable if available
+
+    // Update main temperature and location
+    tempLarge.textContent = `${Math.round(temp)}°C`;
+    locationLarge.textContent = location;
+
+    // Update detailed information
+    feelsLike.textContent = `${Math.round(temp)}°C`;
+    humidity.textContent = `${humid}%`;
+    wind.textContent = `${windSpeed} km/h`;
+    pressure.textContent = '--'; // Not available in Open-Meteo
+    if (rainEl) rainEl.textContent = `${rain} mm`;
+    if (cloudEl) cloudEl.textContent = `${cloud}%`;
+
+    // Update weather icon based on weather condition
+    const weatherCode = data.current_weather.weathercode;
+    weatherIcon.className = getWeatherIcon(weatherCode);
+
+    // Change background based on rain
+    if (rain > 0) {
+        weatherWindow.classList.add('rainy-bg');
+        weatherWindow.classList.remove('sunny-bg');
+    } else {
+        weatherWindow.classList.add('sunny-bg');
+        weatherWindow.classList.remove('rainy-bg');
+    }
+
+    weatherWindow.style.display = 'block';
+}
+
+function updateClockWindow() {
+    const digitalClock = document.querySelector('#clock-window .digital-clock');
+    const dateFull = document.querySelector('#clock-window .date-full');
+    const utcTime = document.querySelector('#clock-window .utc-time');
+    const localTime = document.querySelector('#clock-window .local-time');
+
+    if (!digitalClock || !dateFull || !utcTime || !localTime) {
+        console.error('Clock window elements not found');
+        return;
+    }
+
+    function update() {
+        const now = new Date();
+        
+        digitalClock.textContent = now.toLocaleTimeString('en-US', {
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: true
+        });
+
+        dateFull.textContent = now.toLocaleDateString('en-US', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+
+        utcTime.textContent = now.toUTCString().split(' ')[4];
+        localTime.textContent = now.toLocaleTimeString('en-US');
+    }
+
+    update();
+    const intervalId = setInterval(update, 1000);
+
+    // Store the interval ID on the window element
+    clockWindow.dataset.intervalId = intervalId;
+
+    // Clear interval when window is closed
+    const closeBtn = clockWindow.querySelector('.close-btn');
+    if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+            clearInterval(intervalId);
+        });
+    }
+}
 
 // Mobile touch handling
 let touchStartX = 0;
@@ -646,4 +914,41 @@ document.querySelectorAll('.window-content, .terminal-content, .start-menu-items
     element.addEventListener('touchstart', () => {
         element.style.overflow = 'auto';
     });
-}); 
+});
+
+// Helper to create a folder window with a textarea for text
+function createTextFolderWindow(folderName) {
+    // Create window element
+    const win = document.createElement('div');
+    win.className = 'window';
+    win.id = `${folderName}-window`;
+    win.innerHTML = `
+        <div class="window-header">
+            <span><i class="fas fa-folder"></i> ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}</span>
+            <button class="close-btn">&times;</button>
+        </div>
+        <div class="window-content">
+            <textarea id="${folderName}-textarea" style="width:100%;height:200px;resize:vertical;"></textarea>
+            <button id="${folderName}-save-btn">Save</button>
+            <span id="${folderName}-save-status" style="margin-left:10px;color:#4caf50;"></span>
+        </div>
+    `;
+    document.body.appendChild(win);
+    makeDraggable(win);
+
+    // Save/load logic
+    const textarea = win.querySelector(`#${folderName}-textarea`);
+    const saveBtn = win.querySelector(`#${folderName}-save-btn`);
+    const saveStatus = win.querySelector(`#${folderName}-save-status`);
+    // Load saved text
+    textarea.value = localStorage.getItem(`foldertext-${folderName}`) || '';
+    saveBtn.onclick = function() {
+        localStorage.setItem(`foldertext-${folderName}`, textarea.value);
+        saveStatus.textContent = 'Saved!';
+        setTimeout(()=>{ saveStatus.textContent = ''; }, 1500);
+    };
+    // Close button
+    win.querySelector('.close-btn').onclick = function() {
+        win.style.display = 'none';
+    };
+} 
