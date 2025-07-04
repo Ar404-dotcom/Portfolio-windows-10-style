@@ -118,13 +118,13 @@ body {
     left: 55%;
     transform: translate(-50%, -50%);
     width: 600px;
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(30, 30, 30, 0.95);
     border-radius: 10px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
     display: none;
     overflow: hidden;
     backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .window.active {
@@ -144,7 +144,7 @@ body {
 }
 
 .window-header {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(45, 45, 45, 0.95);
     color: #ffffff;
     padding: 12px;
     display: flex;
@@ -175,7 +175,8 @@ body {
     padding: 20px;
     max-height: 70vh;
     overflow-y: auto;
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(30, 30, 30, 0.95);
+    color: #ffffff;
 }
 
 .file {
@@ -185,15 +186,15 @@ body {
     border-radius: 8px;
     transition: all 0.2s;
     margin-bottom: 10px;
-    background: rgba(255, 255, 255, 0.9);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(45, 45, 45, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(5px);
 }
 
 .file:hover {
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(60, 60, 60, 0.9);
     transform: translateX(5px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
 .file i {
@@ -209,27 +210,27 @@ body {
 
 .file-content h3 {
     margin-bottom: 5px;
-    color: #000000;
+    color: #ffffff;
     font-weight: 600;
     text-shadow: none;
 }
 
 .file-content p {
-    color: #333333;
+    color: #cccccc;
     margin-bottom: 5px;
     line-height: 1.4;
     text-shadow: none;
 }
 
 .file-content a {
-    color: #0066cc;
+    color: #4dabf7;
     text-decoration: none;
     transition: all 0.2s;
     text-shadow: none;
 }
 
 .file-content a:hover {
-    color: #004499;
+    color: #74c0fc;
     text-decoration: underline;
 }
 
@@ -259,24 +260,32 @@ body {
     color: #000000;
 }
 
+/* Time and Date Widget */
 .time-date {
-    margin-left: auto;
-    padding: 0 10px;
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
-    justify-content: center;
+    align-items: center;
+    padding: 5px 15px;
+    background: #000000;
+    border-radius: 5px;
+    margin-left: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s;
 }
 
-#current-time, #current-date {
-    font-size: 12px;
-    color: #000000;
-    text-shadow: none;
+.time-date:hover {
+    background: #1a1a1a;
+}
+
+#current-time {
+    font-size: 14px;
+    font-weight: 500;
+    color: #ffffff;
 }
 
 #current-date {
-    font-size: 11px;
-    opacity: 0.9;
+    font-size: 12px;
+    color: #cccccc;
 }
 
 /* Custom scrollbar */
@@ -285,16 +294,16 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(30, 30, 30, 0.5);
 }
 
 ::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.2);
     border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.3);
 }
 
 /* Loading Screen */
@@ -456,31 +465,31 @@ body {
 .search-box {
     display: flex;
     align-items: center;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(45, 45, 45, 0.95);
     border-radius: 4px;
     padding: 4px 8px;
     width: 200px;
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     position: relative;
 }
 
 .search-box i {
-    color: #000000;
+    color: #ffffff;
     margin-right: 8px;
 }
 
 .search-box input {
     background: none;
     border: none;
-    color: #000000;
+    color: #ffffff;
     outline: none;
     width: 100%;
     font-size: 13px;
 }
 
 .search-box input::placeholder {
-    color: rgba(0, 0, 0, 0.7);
+    color: rgba(255, 255, 255, 0.5);
 }
 
 /* Search Results */
@@ -489,7 +498,7 @@ body {
     bottom: 100%;
     left: 0;
     width: 100%;
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(45, 45, 45, 0.95);
     border-radius: 8px;
     box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
     margin-bottom: 8px;
@@ -497,6 +506,7 @@ body {
     overflow-y: auto;
     display: none;
     z-index: 1000;
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .search-result-item {
@@ -506,21 +516,22 @@ body {
     gap: 8px;
     cursor: pointer;
     transition: all 0.2s;
+    color: #ffffff;
 }
 
 .search-result-item:hover {
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(60, 60, 60, 0.9);
 }
 
 .search-result-item i {
     font-size: 16px;
-    color: #333;
+    color: #ffffff;
     width: 20px;
     text-align: center;
 }
 
 .search-result-item span {
-    color: #333;
+    color: #ffffff;
     font-size: 13px;
 }
 
@@ -532,7 +543,7 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: #000000 !important;
+    background: #1a1a1a !important;
     color: #ffffff;
     font-family: 'Consolas', monospace;
     padding: 0;
@@ -556,7 +567,8 @@ body {
     padding: 12px;
     height: calc(100% - 40px);
     overflow-y: auto;
-    background: #000000;
+    background: #1a1a1a;
+    color: #ffffff;
 }
 
 .terminal-input-line {
@@ -578,6 +590,10 @@ body {
     font-size: 14px;
     flex-grow: 1;
     outline: none;
+}
+
+.terminal-input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
 }
 
 /* Vibrant Folder Icons */
@@ -758,13 +774,14 @@ body {
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
-.social-app i.fa-envelope { color: #EA4335; }
+/* Gmail uses red, Google uses blue */
+.social-app[title="Gmail"] i.fa-google { color: #EA4335; }
+.social-app[title="Google"] i.fa-google { color: #4285F4; }
 .social-app i.fa-instagram { color: #E4405F; }
 .social-app i.fa-twitter { color: #1DA1F2; }
 .social-app i.fa-chess { color: #7FA650; }
 .social-app i.fa-youtube { color: #FF0000; }
 .social-app i.fa-spotify { color: #1DB954; }
-.social-app i.fa-google { color: #4285F4; }
 .social-app i.fa-amazon { color: #FF9900; }
 
 .social-app::after {
@@ -823,6 +840,297 @@ body {
     font-size: 11px;
     opacity: 0.9;
     color: #1a73e8;
+}
+
+/* Weather Window Styles */
+#weather-window {
+    width: 800px;
+    height: 400px;
+    background: linear-gradient(to bottom, #1a1a1a, #2d2d2d);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+#weather-window.rainy-bg {
+    background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=2073&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') center/cover no-repeat !important;
+}
+#weather-window.sunny-bg {
+    background: url('https://thumbs.dreamstime.com/b/sunny-sky-white-clouds-bright-sun-blue-background-44547416.jpg') center/cover no-repeat !important;
+}
+
+.weather-details {
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    height: calc(100% - 50px);
+}
+
+.current-weather {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.weather-main-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 30px;
+    border-radius: 15px;
+    width: 100%;
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+.weather-icon-large {
+    font-size: 84px;
+    margin-bottom: 20px;
+    color: #00aaff;
+    text-shadow: 0 0 20px rgba(0, 170, 255, 0.4);
+}
+
+.temperature-large {
+    font-size: 72px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #ffffff;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    background: rgba(0, 0, 0, 0.2);
+    padding: 10px 30px;
+    border-radius: 15px;
+}
+
+.location-large {
+    font-size: 32px;
+    color: #e0e0e0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.2);
+    padding: 10px 25px;
+    border-radius: 12px;
+    margin-top: 5px;
+}
+
+.weather-info-detailed {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    padding: 25px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.2);
+    height: 100%;
+}
+
+.weather-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 18px;
+    color: #ffffff;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.weather-row:hover {
+    background: rgba(0, 0, 0, 0.3);
+    transform: translateX(5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.weather-row i {
+    color: #00aaff;
+    font-size: 24px;
+    width: 30px;
+    text-align: center;
+    text-shadow: 0 0 10px rgba(0, 170, 255, 0.3);
+}
+
+/* Window Header for Weather */
+#weather-window .window-header {
+    background: linear-gradient(to right, #1a1a1a, #2d2d2d);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#weather-window .window-header span {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+    color: #ffffff;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 8px 15px;
+    border-radius: 8px;
+}
+
+#weather-window .window-header i {
+    color: #00aaff;
+}
+
+#weather-window .close-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+#weather-window .close-btn:hover {
+    background: rgba(255, 59, 48, 0.8);
+    color: #ffffff;
+}
+
+/* Clock Window Styles */
+#clock-window {
+    width: 400px;
+    height: 500px;
+    background: #1a1a1a;
+    color: #ffffff;
+}
+
+.clock-details {
+    padding: 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+/* Analog Clock Styles */
+.analog-clock {
+    width: 200px;
+    height: 200px;
+    position: relative;
+    margin: 20px auto;
+}
+
+.clock-face {
+    width: 100%;
+    height: 100%;
+    border: 8px solid #4a90e2;
+    border-radius: 50%;
+    position: relative;
+    background: #2a2a2a;
+    box-shadow: 0 0 20px rgba(74, 144, 226, 0.3);
+}
+
+.center-dot {
+    width: 12px;
+    height: 12px;
+    background: #4a90e2;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+}
+
+.hand {
+    position: absolute;
+    bottom: 50%;
+    left: 50%;
+    transform-origin: bottom;
+    background: #ffffff;
+    border-radius: 4px;
+}
+
+.hour-hand {
+    width: 4px;
+    height: 60px;
+    background: #ff9f43;
+}
+
+.minute-hand {
+    width: 3px;
+    height: 80px;
+    background: #4a90e2;
+}
+
+.second-hand {
+    width: 2px;
+    height: 90px;
+    background: #ee5253;
+}
+
+.hour-marker {
+    width: 3px;
+    height: 15px;
+    background: #4a90e2;
+    position: absolute;
+    top: -7px;
+    left: 50%;
+    transform-origin: bottom;
+}
+
+/* Digital Clock Styles */
+.digital-clock {
+    font-size: 48px;
+    font-weight: bold;
+    color: #4a90e2;
+    text-shadow: 0 0 10px rgba(74, 144, 226, 0.5);
+    margin: 20px 0;
+}
+
+.date-full {
+    font-size: 20px;
+    color: #ffffff;
+    margin-bottom: 20px;
+}
+
+.time-zones {
+    display: grid;
+    grid-gap: 15px;
+    width: 100%;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+.time-zone-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    background: rgba(74, 144, 226, 0.1);
+    border-radius: 5px;
+    color: #ffffff;
+}
+
+.time-zone-item span {
+    font-weight: bold;
+    color: #4a90e2;
+}
+
+/* Make weather widget and time-date clickable */
+.weather-widget, .time-date {
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.weather-widget:hover, .time-date:hover {
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 /* Responsive Design */
@@ -1041,4 +1349,26 @@ body {
 input, textarea {
     -webkit-user-select: text;
     user-select: text;
-} 
+}
+
+/* Window Close Button */
+.window .close-btn {
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 0 5px;
+    transition: all 0.2s;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+}
+
+.window .close-btn:hover {
+    background-color: rgba(255, 59, 48, 0.2);
+    color: #ff3b30;
+}
