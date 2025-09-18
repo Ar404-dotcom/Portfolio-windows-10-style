@@ -1,3 +1,4 @@
+// Loading Screen
 document.addEventListener('DOMContentLoaded', () => {
     const loadingScreen = document.querySelector('.loading-screen');
     const desktop = document.querySelector('.desktop');
@@ -451,8 +452,8 @@ searchBox.addEventListener('input', (e) => {
         { name: 'Spotify', icon: 'fab fa-spotify', url: 'https://spotify.com' },
         { name: 'Google', icon: 'fab fa-google', url: 'https://google.com' },
         { name: 'Amazon', icon: 'fab fa-amazon', url: 'https://amazon.com' },
-        { name: 'LeetCode', icon: 'fas fa-code', url: 'https://leetcode.com/ariyan' },
-        { name: 'GitHub', icon: 'fab fa-github', url: 'https://github.com/ariyan' }
+        { name: 'LeetCode', icon: 'fas fa-code', url: 'https://leetcode.com/u/Ariyan_/' },
+        { name: 'GitHub', icon: 'fab fa-github', url: 'https://github.com/Ar404-dotcom' }
     ];
 
     socialApps.forEach(app => {
@@ -534,8 +535,8 @@ const socialApps = [
     { name: 'Spotify', icon: 'fab fa-spotify', url: 'https://spotify.com' },
     { name: 'Google', icon: 'fab fa-google', url: 'https://google.com' },
     { name: 'Amazon', icon: 'fab fa-amazon', url: 'https://amazon.com' },
-    { name: 'LeetCode', icon: 'fas fa-code', url: 'https://leetcode.com/ariyan' },
-    { name: 'GitHub', icon: 'fab fa-github', url: 'https://github.com/ariyan' }
+    { name: 'LeetCode', icon: 'fas fa-code', url: 'https://leetcode.com/u/Ariyan_/' },
+    { name: 'GitHub', icon: 'fab fa-github', url: 'https://github.com/Ar404-dotcom' }
 ];
 
 function addSocialAppsToTaskbar() {
